@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Fetch OITNB</title>
+  <meta charset="utf-8">
+  <meta keywords="facebook group collector">
+  <script src="json2.js"></script>
+</head>
+<body>
+  <p>Hello, world!</p>
+  <script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : 'xxx',
+      xfbml      : true,
+      version    : 'v2.4'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+  </script>
+  <script>
+  // Only works after `FB.init` is called
+  </script>
+  <script>
+  function readData() {
+    FB.api(
+      "/xxx?fields=xxx",
+      // {fields: 'posts'},
+      {access_token : "xxx"},
+      function (response) {
+        if (response && !response.error) {
+          var t = JSON.stringify(response);
+          console.log(t);
+          saveFile(t);
+        } else {
+          console.log("some error!");
+        }
+      }
+    );
+  }
+
+  function saveFile(data) {
+    var url = 'data:text/json;charset=utf8,' + encodeURIComponent(data);
+    window.open(url, '_blank');
+    window.focus();
+  }  // var sur-fix = "?fields=";
+  // var query = "posts{message,comments{message,comments}}";
+  // var id =
+
+  
+  </script>
+  <button onclick="readData()">Read Data on console and download</button>
+
+</body>
+<footer>
+</footer>
+</html>
