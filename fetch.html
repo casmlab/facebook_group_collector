@@ -58,15 +58,22 @@
  // });
   </script>
   <script>
+  var groupID = "160475740743826";
+  var pageCount = 1;
+
   function readData() {
 
       FB.getLoginStatus(function(response) {
         if (response.status === 'connected') {
           // the user is logged in and has authemticated your app
           console.log("connected");
-          var uid = response.authResponse.userID;
+          // var uid = response.authResponse.userID;
           var accessToken = response.authResponse.accessToken;
-          grabData(accessToken);
+          var url = groupID + "/feed?fields=id,story,created_time,from,updated_time,actions,caption,application,message,message_tags,link,name,picture,place,object_id,comments{comment_count,message,id,created_time,from,comments{created_time}}";
+          grabData(url, accessToken);
+
+          // nextPage();
+
         } else {
             console.log("not logged in");
             FB.login();
@@ -76,14 +83,16 @@
 
   }
 
-  function grabData(accessToken) {
+  function grabData(url, accessToken) {
     FB.api(
-      "160475740743826/feed?fields=id,story,created_time,from,updated_time,actions,caption,application,message,message_tags,link,name,picture,place,object_id,comments{comment_count,message,id,created_time,from,comments{created_time}}",
+      url,
       {fields: 'posts'},
       {access_token : accessToken},
       function (response) {
         console.log("get response");
-        console.log(response);
+        // console.log(response);
+        
+        // transfer response object to string, and save as json txt file.
         if (response && !response.error) {
           // console.log(response);
           var t = JSON.stringify(response);
@@ -92,8 +101,37 @@
         } else {
           console.log("some error!");
         }
+
+        // set request interval to meet the limit of Facebook.
+
+        setTimeout(function() {
+
+            // if next page exists, go to next page and grab the data
+            try {
+              console.log(pageCount);
+              nextPage = response["paging"]["next"];
+              console.log("nextPage exists! try grab next page");
+
+              var nextPage = response["paging"]["next"];
+              grabData(nextPage, accessToken);
+
+              
+
+              pageCount += 1;   
+            }
+            catch(e) {
+              console.log("till the end of pages!");
+              console.log(pageCount);
+            };
+
+
+        }, 10000);
+
+        
+
       }
     );
+
   }
 
   function saveFile(data) {
