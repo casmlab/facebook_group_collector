@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Fetch OITNB</title>
+  <title>Fetch Group</title>
   <meta charset="utf-8">
   <meta keywords="facebook group collector">
   <script src="json2.js"></script>
@@ -9,12 +9,22 @@
 <body>
   <p>Hello, world!</p>
   <script>
+  // setup javascript sdk
   window.fbAsyncInit = function() {
     FB.init({
-      appId      : 'xxx',
+      appId      : '1065187026859191',
       xfbml      : true,
       version    : 'v2.4'
     });
+
+//     FB.getLoginStatus(function(response) {
+//   if (response.status === 'connected') {
+//     console.log('Logged in.');
+//   }
+//   else {
+//     FB.login();
+//   }
+// });
   };
 
   (function(d, s, id){
@@ -24,18 +34,58 @@
      js.src = "//connect.facebook.net/en_US/sdk.js";
      fjs.parentNode.insertBefore(js, fjs);
    }(document, 'script', 'facebook-jssdk'));
+
+  // end setup javascript sdk
   </script>
   <script>
   // Only works after `FB.init` is called
+
+ //  FB.getLoginStatus(function(response) {
+ //  if (response.status === 'connected') {
+ //    // the user is logged in and has authenticated your
+ //    // app, and response.authResponse supplies
+ //    // the user's ID, a valid access token, a signed
+ //    // request, and the time the access token 
+ //    // and signed request each expire
+ //    var uid = response.authResponse.userID;
+ //    var accessToken = response.authResponse.accessToken;
+ //  } else if (response.status === 'not_authorized') {
+ //    // the user is logged in to Facebook, 
+ //    // but has not authenticated your app
+ //  } else {
+ //    // the user isn't logged in to Facebook.
+ //  }
+ // });
   </script>
   <script>
   function readData() {
+
+      FB.getLoginStatus(function(response) {
+        if (response.status === 'connected') {
+          // the user is logged in and has authemticated your app
+          console.log("connected");
+          var uid = response.authResponse.userID;
+          var accessToken = response.authResponse.accessToken;
+          grabData(accessToken);
+        } else {
+            console.log("not logged in");
+            FB.login();
+            // the user isn't logged in to Facebook
+          };
+      });
+
+  }
+
+  function grabData(accessToken) {
     FB.api(
-      "/xxx?fields=xxx",
-      // {fields: 'posts'},
-      {access_token : "xxx"},
+      "160475740743826/feed?fields=id,story,created_time,from,updated_time,actions,caption,application,message,message_tags,link,name,picture,place,object_id,comments{comment_count,message,id,created_time,from,comments{created_time}}",
+      {fields: 'posts'},
+      {access_token : accessToken},
       function (response) {
+        console.log("get response");
+        console.log(response);
         if (response && !response.error) {
+          // console.log(response);
           var t = JSON.stringify(response);
           console.log(t);
           saveFile(t);
