@@ -10,13 +10,13 @@ fetch.html was run with Ruby 2.2.3 (x64) (Download from: http://rubyinstaller.or
 
 What You Need Before you Start
 -------------------------------
-You need to know the GroupID of the group you would like to collect data from (Get groupID using: https://lookup-id.com/), and modify "appId" field in line 15 and "groupID" field in line 61 in fetch.html. Please make sure the group you would like to access is a public group.
+You need to know the GroupID of the group you would like to collect data from (Get groupID using: https://lookup-id.com/), and modify "groupID" field in line 61 in fetch.html. Please make sure the group you would like to access is a public group.
 
-Your Facebook account also need to be added as the admin to modify and run the app. To be continued in this section...
+Your Facebook account also need to be granted at least Tester permission to modify and run the app.
 
 Setup and Go
 -------------
-1. Open Command Prompt from the foder where fetch.html and json2.js locate, and type "serve".
+1. Open Command Prompt from the folder where fetch.html and json2.js locate, and type "serve".
 2. Open a browser, eg, Chrome, and make sure that your browser does not block popped out websites.
 3. Type "localhost:4000" in the search area and press enter. You would see a list of files including fetch.html.
 4. Click on fetch.html and the button "Read Data on console and download".
