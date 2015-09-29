@@ -10,9 +10,9 @@ fetch.html was run with Ruby 2.2.3 (x64) (Download from: http://rubyinstaller.or
 
 What You Need Before you Start
 -------------------------------
-You need to know the GroupID of the group you would like to collect data from (Get groupID using: https://lookup-id.com/), and modify "appId" field in line 15 and "groupID" field in line 61 in fetch.html.
+You need to know the GroupID of the group you would like to collect data from (Get groupID using: https://lookup-id.com/), and modify "appId" field in line 15 and "groupID" field in line 61 in fetch.html. Please make sure the group you would like to access is a public group.
 
-You also need the permission from Facebook to run the app. To be continued in this section...
+Your Facebook account also need to be added as the admin to modify and run the app. To be continued in this section...
 
 Setup and Go
 -------------
@@ -20,4 +20,7 @@ Setup and Go
 2. Open a browser, eg, Chrome, and make sure that your browser does not block popped out websites.
 3. Type "localhost:4000" in the search area and press enter. You would see a list of files including fetch.html.
 4. Click on fetch.html and the button "Read Data on console and download".
+5. At the first time you click the button, a Facebook website about your verification would show up. Click Okay. If error shows up, it means you have not been granted permission.
+6. Click "Read Data on console and download", and data webpages would pop up.
+7. Save each webpage to your computer.
 
