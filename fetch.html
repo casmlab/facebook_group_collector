@@ -69,7 +69,7 @@
           console.log("connected");
           // var uid = response.authResponse.userID;
           var accessToken = response.authResponse.accessToken;
-          var url = groupID + "/feed?fields=caption,created_time,description,from,id,link,message,message_tags,name,story,type,updated_time,comments,likes{id,name}";
+          var url = groupID + "/feed?fields=caption,created_time,description,from,id,link,message,message_tags,name,story,type,updated_time,comments{comments{object,parent,message},from,id,message,created_time,object},likes{id,name}";
           grabData(url, accessToken);
 
           // nextPage();
