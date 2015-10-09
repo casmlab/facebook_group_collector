@@ -47,7 +47,7 @@ class Application(Frame):
           <script src="json2.js"></script>
         </head>
         <body>
-          <p>Please click below and data will pop up!</p>
+          <p>Hello, world!</p>
           <script>
           // setup javascript sdk
           window.fbAsyncInit = function() {
@@ -57,7 +57,6 @@ class Application(Frame):
               version    : 'v2.4'
             });
           };
-
           (function(d, s, id){
              var js, fjs = d.getElementsByTagName(s)[0];
              if (d.getElementById(id)) {return;}
@@ -65,36 +64,30 @@ class Application(Frame):
              js.src = "//connect.facebook.net/en_US/sdk.js";
              fjs.parentNode.insertBefore(js, fjs);
            }(document, 'script', 'facebook-jssdk'));
-
           // end setup javascript sdk
           </script>
-
+          <script>
+          </script>
           <script>
           var groupID = '""" + gid + """';
           var pageCount = 1;
-
           function readData() {
-
               FB.getLoginStatus(function(response) {
                 if (response.status === 'connected') {
                   // the user is logged in and has authemticated your app
                   console.log("connected");
                   // var uid = response.authResponse.userID;
                   var accessToken = response.authResponse.accessToken;
-                  var url = groupID + "/feed?fields=caption,created_time,description,from,id,link,message,message_tags,name,story,type,updated_time,comments,likes{id,name}";
+                  var url = groupID + "/feed?fields=caption,created_time,description,from,id,link,message,message_tags,name,story,type,updated_time,comments{comments{object,parent,message},from,id,message,created_time,object},likes{id,name}";
                   grabData(url, accessToken);
-
                   // nextPage();
-
                 } else {
                     console.log("not logged in");
                     FB.login();
                     // the user isn't logged in to Facebook
                   };
               });
-
           }
-
           function grabData(url, accessToken) {
             FB.api(
               url,
@@ -103,7 +96,7 @@ class Application(Frame):
               function (response) {
                 console.log("get response");
                 // console.log(response);
-
+                
                 // transfer response object to string, and save as json txt file.
                 if (response && !response.error) {
                   // console.log(response);
@@ -113,49 +106,38 @@ class Application(Frame):
                 } else {
                   console.log("some error!");
                 }
-
                 // set request interval to meet the limit of Facebook.
-
                 setTimeout(function() {
-
                     // if next page exists, go to next page and grab the data
                     try {
                       console.log(pageCount);
                       nextPage = response["paging"]["next"];
                       console.log("nextPage exists! try grab next page");
-
                       // var nextPage = response["paging"]["next"];
                       grabData(nextPage, accessToken);
-
-
-
-                      pageCount += 1;
+                      
+                      pageCount += 1;   
                     }
                     catch(e) {
                       console.log("till the end of pages!");
                       console.log(pageCount);
                     };
-
-
                 }, 10000);
-
-
-
+                
               }
             );
-
           }
-
           function saveFile(data) {
             var url = 'data:text/json;charset=utf8,' + encodeURIComponent(data);
             window.open(url, '_blank');
             window.focus();
-          }
-
-
+          }  // var sur-fix = "?fields=";
+          // var query = "posts{message,comments{message,comments}}";
+          // var id =
+          
           </script>
-          <button onclick="readData()">Retrieve and Download Data</button>
-
+          <button onclick="readData()">Read Data on console and download</button>
+        
         </body>
         <footer>
         </footer>
