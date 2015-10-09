@@ -131,9 +131,7 @@ class Application(Frame):
             var url = 'data:text/json;charset=utf8,' + encodeURIComponent(data);
             window.open(url, '_blank');
             window.focus();
-          }  // var sur-fix = "?fields=";
-          // var query = "posts{message,comments{message,comments}}";
-          // var id =
+          }
           
           </script>
           <button onclick="readData()">Read Data on console and download</button>
