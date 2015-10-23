@@ -10,7 +10,7 @@ You need to run with Ruby 2.2.3 (x64) (Download from: http://rubyinstaller.org/d
 
 What You Need Before you Start
 -------------------------------
-You need to know the GroupID of the group you would like to collect data from (Get groupID using: https://lookup-id.com/), and input it in the GUI. Please make sure the group you would like to access is a public group.
+You need to know the GroupID of the group (eg, 160475740743826) you would like to collect data from (Get groupID using: https://lookup-id.com/), and input it in the GUI. Please make sure the group you would like to access is a public group.
 
 Your Facebook account also need to be granted at least Tester permission to modify and run the app.
 
