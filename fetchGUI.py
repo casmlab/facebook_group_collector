@@ -1,5 +1,8 @@
 from selenium import webdriver
 from Tkinter import *
+import tkMessageBox
+from tkFileDialog import askdirectory
+import glob, os, io, json
 
 class Application(Frame):
 
@@ -7,16 +10,14 @@ class Application(Frame):
         Frame.__init__(self,master)
         self.pack()
         self.createWidgets()
-        self.createJSON2()
+        # self.createJSON2()
         self.warning='Finished \n'
 
     def createWidgets(self):
 
-        self.label1=Label(self,text='Please input Facebook public group ID below')
-        self.label1.pack()
+        self.label0=Label(self,text='Please input Facebook public group ID below')
+        self.label0.pack()
 
-        self.entry=Entry(self,width=50)
-        self.entry.pack()
         self.menu=Menu(self,tearoff=0)
         self.menu.add_command(label='Cut',command=lambda: self.event_generate('<Control-x>'))
         self.menu.add_separator()
@@ -25,11 +26,26 @@ class Application(Frame):
         self.menu.add_command(label='Paste',command=lambda: self.event_generate('<Control-v>'))
         def popup(event):
             self.menu.post(event.x_root,event.y_root)
-        self.entry.bind("<Button-3>",popup)
 
-        self.button=Button(self,text='Get Group Feeds',command=self.fetch)
-        self.button.pack()
+        self.entry0=Entry(self,width=50)
+        self.entry0.pack()
+        self.entry0.bind("<Button-3>",popup)
 
+        self.button0=Button(self,text='Get Group Feeds',command=self.fetch)
+        self.button0.pack()
+
+        self.label1=Label(self,text='******************************After downloading completes******************************')
+        self.label1.pack()
+        self.label2=Label(self,text='Please name the combined file below and choose the folder where ONLY data locates')
+        self.label2.pack()
+        self.entry1=Entry(self,width=50)
+        self.entry1.pack()
+        self.entry1.bind("<Button-3>",popup)
+        self.button1=Button(self,text='Combine Files',command=self.combine)
+        self.button1.pack()
+
+# reserve json2.js for future use
+    '''
     def createJSON2(self):
         f = open('json2.js', 'w')
 
@@ -556,9 +572,10 @@ if (typeof JSON !== 'object') {
         """
         f.write(message)
         f.close()
+    '''
 
     def fetch(self):
-        gid = self.entry.get()
+        gid = self.entry0.get()
 
         f = open('fetchNow.html', 'w')
 
@@ -594,7 +611,7 @@ if (typeof JSON !== 'object') {
   <script>
   </script>
   <script>
-  var groupID = '160475740743826';
+  var groupID = '""" + gid + """';
   var pageCount = 1;
   function readData() {
 	  FB.getLoginStatus(function(response) {
@@ -671,10 +688,29 @@ if (typeof JSON !== 'object') {
 
         driver = webdriver.Firefox()
         driver.get('http://localhost:4000/fetchNow.html')
+        tkMessageBox.showinfo('Notice','Finished. Please go to Firefox.')
+
+    def combine(self):
+        name = self.entry1.get()
+        directory=askdirectory()
+        data=[]
+        for f in glob.glob(os.path.join(directory, '*')):
+            file=open(f, 'r').read()
+            content=json.loads(file)
+            data+=content['data']
+        outfilename = ".".join([name,'json'])
+        outfile = io.open(outfilename, mode='wt', encoding='utf8')
+        outfile.write(json.dumps(data, ensure_ascii=False, encoding='utf8'))
+        outfile.write(u'\n')
+        outfile.flush()
+        outfile.close()
+        tkMessageBox.showinfo('Notice','Finished. ' + name + '.json is with this app.')
+
+
 
 window=Tk()
 window.title('Facebook Public Group Feed Collector GUI')
-window.geometry('500x150')
+window.geometry('600x250')
 app=Application(window)
 window.mainloop()
 print app.warning
