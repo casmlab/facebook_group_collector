@@ -1,4 +1,4 @@
-FacebookGroupCollecctor
+FacebookGroupCollector
 =====================================
 (v.1 - October 26, 2015)
 
@@ -23,3 +23,41 @@ Setup and Go
 5. Click the button again, and windows to save data webpages would pop up.
 6. Check the box "Do this automatically for files like this from now on" and save webpages to one empty folder in your computer.
 7. After downloading data is complete, type in the name for the combined json file, and click the Combine Files button.
+
+Additional Data Curation
+-------------
+After downloading all data, we do a little curation with parse.py and toCSV.py.
+Having all raw data in the directory RawData/, run the parse.py first to extract targeted information for future analysis including 
+
+-	message [the content of the entry]
+-	postId  [the id of the entry]
+-	parentPostId  [if the current entry is a post, this is the id of its parent]
+-	parentCommentId  [if the current entry is a comment, this is the id of its parent]
+-	authorName  [the author name of the current entry]
+-	metaData [including hasLink, hasEvent, hasPhoto, hasVideo and hasTags. Boolean type and the default value is False.]
+
+The output would be one JSON file composed by all entries. And each entry looks like the example below.
+
+	{
+  		"hasVideo": false,
+  		"hasPhoto": false,
+  		"hasLink": true,
+  		"parentPostId": "",
+  		"authorName": "Shenyun Shenny",
+  		"hasEvent": false,
+  		"message": "Please join AACN this Saturday morning at 11 AM  for yummy dim sum at Ming Hin (2168 South Archer Avenue, Chicago, IL) in Chinatown. \n\nRSVP on our Meetup page: http:\/\/meetu.ps\/3mPFG",
+  		"postId": "160475740743826_167108120080588",
+  		"hasTags": false,
+  		"parentCommentId": ""
+	}
+Now we have all clean data we need.
+
+The next step is to put the data in a Excel form so that we can analyze them one by one and take notes. The reason to do this is to classify different topics and discover new issues or questions from the feed.
+
+The easist way to do this is to convert our JSON data into CSV data so that Excel can just open it in a nice format. And that's what toCSV.py file does. The output would be like the table below.
+
+| postId  | parentPostId | parentCommentId | authorName | message | hasVideo | hasPhoto | hasEvent | hasLink | hasTags |
+|---|---|---|---|---|---|---|---|---|---|
+| 160475740743826_167108120080588  |   |   | Shenyun Shenny  | Please join AACN this Saturday morning at 11 AM  for yummy dim sum at Ming Hin (2168 South Archer Avenue, Chicago, IL) in Chinatown. RSVP on our Meetup page: http://meetu.ps/3mPFG  | FALSE  | FALSE  | FALSE  | TRUE  | FALSE  |
+
+And you can add you own column such as "notes" or "categories".
