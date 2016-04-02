@@ -713,4 +713,4 @@ window.title('Facebook Public Group Feed Collector GUI')
 window.geometry('600x250')
 app=Application(window)
 window.mainloop()
-print app.warning
+print(app.warning)

@@ -90,7 +90,7 @@ def grabData(f,outputFile):
 
       try:
         comments = post["comments"]["data"]
-        print "Comments exist!"
+        print("Comments exist!")
         for comment in comments:
           addComments(comment, postId, outputFile)
           global first_level_comments
@@ -105,10 +105,10 @@ def grabData(f,outputFile):
               second_level_comments = second_level_comments + 1
               # first_level_comments = first_level_comments + 1
           except:
-            print ("no second comments")
+            print("no second comments")
 
       except:
-        print ("no comments")
+        print("no comments")
 
   # txt = ''.join(data)
   # print txt
@@ -139,13 +139,13 @@ def addComments(comment, parent_post_id, outputFile):
     url = comment["attachment"]["url"]
     hasLink = True
   except:
-    print ("no link")
+    print("no link")
 
   try:
     image = comment["attachment"]["media"]["image"]
     hasLink = True
   except:
-    print ("no photo")
+    print("no photo")
 
   # test tags
   try:
@@ -197,9 +197,9 @@ def main():
     f.close()
  
   outputFile.close()
-  print 'All ' + str(allposts) + ' posts'
-  print 'All ' + str(first_level_comments) + ' first_level_comments'
-  print 'All ' + str(second_level_comments) + ' second_level_comments'
+  print('All ' + str(allposts) + ' posts')
+  print('All ' + str(first_level_comments) + ' first_level_comments')
+  print('All ' + str(second_level_comments) + ' second_level_comments')
 
   # end main function
 
