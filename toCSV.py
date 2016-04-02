@@ -5,7 +5,7 @@ import unicodecsv
 
 def main():
   # open a file for writing
-  outputFile = open('csv-data/data.csv', 'wb+')
+  outputFile = open('csv-data-sample/data.csv', 'wb+')
 
   # open file to read
   f = open('parsed-data-sample/data.json', 'r')
