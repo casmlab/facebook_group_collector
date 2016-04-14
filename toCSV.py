@@ -5,10 +5,10 @@ import unicodecsv
 
 def main():
   # open a file for writing
-  outputFile = open('Forms/aacn-Mar8.csv', 'wb+')
+  outputFile = open('csv-data-sample/data.csv', 'wb+')
 
   # open file to read
-  f = open('ParsedData/parsed-data-Mar8.json', 'r')
+  f = open('parsed-data-sample/data.json', 'r')
 
   count = 0
   # create the csv writer object
