@@ -39,12 +39,13 @@
 
   function getID(link) {
   	// extract the name of the group
-  	var link = "https://www.facebook.com/groups/asianamericanchicagonetwork/";
+  	var link = "https://www.facebook.com/asianamericanchicagonetwork/";
   	var regroup = /https:\/\/www.facebook.com\/groups\/(.*?)\//;
   	// var regroup = new RegExp("https:\/\/www.facebook.com\/groups\/(.*?)\/");
   	var repage = /https:\/\/www.facebook.com\/(.*?)\//;
   	var name;
   	var url;
+  	var type;
 
   	// if name is a group name, use this
   	// search?q=asianamericanchicagonetwork&type=group
@@ -52,10 +53,12 @@
   	// to grab group id
   	if (link.match(regroup)) {
   		name = link.match(regroup)[1];
-        url = "search?q=" + name + "&type=group"
+        url = "search?q=" + name + "&type=group";
+        type = "group";
   	} else if (link.match(repage)) {
   		name = link.match(repage)[1];
-  		url = name
+  		url = name;
+  		type = "page";
   	} else {
   		console.log("Wrong link");
   		return;
@@ -94,7 +97,12 @@
 	          var t = JSON.stringify(response);
 	          console.log(t);
 
-	          groupID = response["data"][0]["id"];
+	          if (response["data"]) {
+	          	groupID = response["data"][0]["id"];
+	          } else {
+	          	groupID = response["id"];
+	          }
+	          
 	          console.log(groupID);
 	          // saveFile(t);
 	        } else {
