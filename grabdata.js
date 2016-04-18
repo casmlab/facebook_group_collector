@@ -30,7 +30,9 @@
 
   function readData(link) {
   	// extract the name of the group
-  	var link = "https://www.facebook.com/groups/asianamericanchicagonetwork/";
+  	// var link = "https://www.facebook.com/groups/asianamericanchicagonetwork/";
+    var link = document.getElementById("GET-link").value;
+
   	var regroup = /https:\/\/www.facebook.com\/groups\/(.*?)\//;
   	// var regroup = new RegExp("https:\/\/www.facebook.com\/groups\/(.*?)\/");
   	var repage = /https:\/\/www.facebook.com\/(.*?)\//;
@@ -102,6 +104,10 @@
 	        // console.log(groupID);
 	        var url2 = groupID + "/feed?fields=caption,created_time,description,from,id,link,message,message_tags,name,story,type,updated_time,comments{comments{object,parent,message,from,id,created_time},from,id,message,created_time,object},likes{id,name}";
 	        // console.log(url2);
+          var pro = document.createElement('p');
+          pro.id = "process"
+          pro.textContent = "Grabbing data, please wait.";
+          document.getElementById('content').appendChild(pro);
 
 	        getPosts(url2, accessToken);
 
@@ -165,6 +171,9 @@
                   a.href = url3;
                   a.textContent = "Download backup.json";
                   document.getElementById('content').appendChild(a);
+
+                  var pro = document.getElementById('process');
+                  pro.textContent = "Complete. Click the link to download."
             	};
         	}, 10000);
         
