@@ -156,6 +156,8 @@
               		getPosts(nextPage, accessToken);
               
               		pageCount += 1;   
+
+                  document.getElementById('process').textContent = "Grabbing page" + pageCount.toString();
             	}
             	catch(e) {
               		console.log("the end of pages!");
