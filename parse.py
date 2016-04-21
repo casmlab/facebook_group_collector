@@ -87,7 +87,7 @@ def grabData(f,outputFile):
     data["hasLink"] = hasLink
     data["hasTags"] = hasTags
     
-    print(json.dumps(data))
+    # print(json.dumps(data))
     outputFile.write(json.dumps(data) + '\n')
 
     try:
@@ -172,7 +172,7 @@ def addComments(comment, parent_post_id, outputFile):
   data["hasLink"] = hasLink
   data["hasTags"] = hasTags
 
-  print(json.dumps(data))
+  # print(json.dumps(data))
   outputFile.write(json.dumps(data) + '\n')
 
   # try:

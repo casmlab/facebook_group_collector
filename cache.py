@@ -33,7 +33,7 @@ def combine(group_id, name, data_dir, outfile):
     json_data['latestPost'] = latestPost
     json_data['latestPostID'] = latestPostID
     json_data['data'] = data
-    print page
+    print(str(page) + " pages done.")
     if data != []:
         saveJSONfile(outfile, json_data)
     else:
