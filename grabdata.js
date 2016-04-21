@@ -46,7 +46,7 @@
   	// to grab group id
   	if (link.match(regroup)) {
   		name = link.match(regroup)[1];
-        url = "search?q=" + name + "&type=group";
+      url = "search?q=" + name + "&type=group";
         // type = "group";
   	} else if (link.match(repage)) {
   		name = link.match(repage)[1];
@@ -54,8 +54,15 @@
   		// type = "page";
   	} else {
   		console.log("Wrong link");
+      var pro = document.createElement('p');
+      pro.textContent = "Wrong link";
+      document.getElementById('content').appendChild(pro);
   		return;
   	}
+
+    var pagename = document.createElement('p');
+    pagename.textContent = "Page name: " + name;
+    document.getElementById('content').appendChild(pagename);
 
 	FB.getLoginStatus(function(response) {
 		if (response.status === 'connected') {
@@ -96,6 +103,9 @@
 	          	groupID = response["id"];
 	          }
 	          
+            var pageid = document.createElement('p');
+            pageid.textContent = "Page id: " + groupID;
+            document.getElementById('content').appendChild(pageid);
 	          // console.log(groupID);
 	          // saveFile(t);
 	        } else {
