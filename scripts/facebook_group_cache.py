@@ -11,24 +11,24 @@ def combine(group_id, name, data_dir, outfile):
     data = []
     page = 0
     latestPost, latestPostID = None, None
-    for f in glob.glob(os.path.join(data_dir, '*')):
-        file = open(f, 'r')
-        c = json.loads(file.read())
-        for content in c:
-            # print len(content['data'])
-            try:
-                latest = content['data'][0]
-                if latestPost == None:
+    # for f in glob.glob(os.path.join(data_dir, '*')):
+    file = open(data_dir, 'r')
+    c = json.loads(file.read())
+    for content in c:
+        # print len(content['data'])
+        try:
+            latest = content['data'][0]
+            if latestPost == None:
+                latestPost = latest['created_time']
+                latestPostID = latest['id']
+            else:
+                if compareTimestamp(latest['created_time'], latestPost):
                     latestPost = latest['created_time']
                     latestPostID = latest['id']
-                else:
-                    if compareTimestamp(latest['created_time'], latestPost):
-                        latestPost = latest['created_time']
-                        latestPostID = latest['id']
-                data += content['data']
-                page += 1
-            except:
-                continue
+            data += content['data']
+            page += 1
+        except:
+            continue
             
     json_data['latestPost'] = latestPost
     json_data['latestPostID'] = latestPostID
@@ -49,6 +49,6 @@ def compareTimestamp(st1, st2):
 
 group_id = '111111111111111'
 group_name = 'asianamericanchicagonetwork'
-data_dir = 'raw-data-sample'
-outfile = os.path.join(os.getcwd(), 'cached-data-sample/data.json')
+data_dir = '../data_samples/raw_data_sample.json'
+outfile = os.path.join(os.getcwd(), '../data_samples/cached_data_sample.json')
 combine(group_id, group_name, data_dir, outfile)
