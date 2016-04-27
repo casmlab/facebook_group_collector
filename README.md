@@ -3,9 +3,6 @@ FacebookGroupCollector
 
 This repo contains [Jupyter](http://jupyter.org/) notebooks and Python scripts for collecting and analyzing data from [Facebook](http://www.facebook.com).
 
-## Required packages
-- unicodecsv
-
 ## What's in the repo
 
 - [```fetch.html```](fetch.html) - HTML code that is used to collect raw data from Facebook by using [Graph API and JavaScript SDK](https://developers.facebook.com/docs/javascript).
