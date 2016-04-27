@@ -5,13 +5,12 @@
 import json
 import os
 
-path = '../data_samples/cached_data_sample.json'
+path = 'raw-data-sample/'
 allposts = 0
 first_level_comments = 0
 second_level_comments = 0
-all_data = []
 
-def grabData(f):
+def grabData(f,outputFile):
 
   data = dict()
   message = ''  # post["message"] may be none
@@ -25,94 +24,91 @@ def grabData(f):
   hasVideo = False  # post["type"] == "video"
   hasTags = False   # post["message_tags"] under comments
 
-  c = json.loads(f.read())
-  for post in c["data"]:
+  for line in f:
     # convert data to json
-    # t = json.loads(line)
+    t = json.loads(line)
     # print t
     # grab all messages in loop
-
-    # for post in content:
+    for post in t["data"]:
       # grab post
-    global allposts
-    allposts = allposts + 1
-    postId = post["id"]
-    authorName = post["from"]["name"]
-    if post["type"] == "link":
-      hasLink = True
-    elif post["type"] == "event":
-      hasEvent = True
-    elif post["type"] == "photo":
-      hasPhoto = True
-    elif post["type"] == "video":
-      hasVideo = True
-    else:
-      print("This type is status.")
+      global allposts
+      allposts = allposts + 1
+      postId = post["id"]
+      authorName = post["from"]["name"]
+      if post["type"] == "link":
+        hasLink = True
+      elif post["type"] == "event":
+        hasEvent = True
+      elif post["type"] == "photo":
+        hasPhoto = True
+      elif post["type"] == "video":
+        hasVideo = True
+      else:
+        print("This type is status.")
 
-    # test tags
-    try:
-      tags = post["message_tags"]
-      hasTags = True
-    except:
-      print("no tags")
-    # grab message  
-    try:
-      message = post["message"]
-      # print message
-      # add to data
-      # data = data + message + '\n'
-      # data.append(message)
-      # allposts = allposts + 1
-      # grab comments
-      # try:
-      #   comments = post["comments"]["data"]
-      #   print "Comments exist!"
-      #   for comment in comments:
-      #     c = comment["message"]
-      #     # data = data + c + '\n'
-      #     data.append(c)
-      #     allposts = allposts + 1
-      # except:
-      #   print "no comments"
-    except:
-      pass
+      # test tags
+      try:
+        tags = post["message_tags"]
+        hasTags = True
+      except:
+        print("no tags")
+      # grab message  
+      try:
+        message = post["message"]
+        # print message
+        # add to data
+        # data = data + message + '\n'
+        # data.append(message)
+        # allposts = allposts + 1
+        # grab comments
+        # try:
+        #   comments = post["comments"]["data"]
+        #   print "Comments exist!"
+        #   for comment in comments:
+        #     c = comment["message"]
+        #     # data = data + c + '\n'
+        #     data.append(c)
+        #     allposts = allposts + 1
+        # except:
+        #   print "no comments"
+      except:
+        pass
 
-    data["postId"] = postId
-    data["parentPostId"] = parentPostId
-    data["parentCommentId"] = parentCommentId
-    data["authorName"] = authorName
-    data["message"] = message
-    data["hasVideo"] = hasVideo
-    data["hasPhoto"] = hasPhoto
-    data["hasEvent"] = hasEvent
-    data["hasLink"] = hasLink
-    data["hasTags"] = hasTags
-    
-    # print(json.dumps(data))
-    # outputFile.write(json.dumps(data) + '\n')
-    all_data.append(data)
+      data["postId"] = postId
+      data["parentPostId"] = parentPostId
+      data["parentCommentId"] = parentCommentId
+      data["authorName"] = authorName
+      data["message"] = message
+      data["hasVideo"] = hasVideo
+      data["hasPhoto"] = hasPhoto
+      data["hasEvent"] = hasEvent
+      data["hasLink"] = hasLink
+      data["hasTags"] = hasTags
+      
+      print(json.dumps(data))
+      outputFile.write(json.dumps(data) + '\n')
 
-    try:
-      comments = post["comments"]["data"]
-      print("Comments exist!")
-      for comment in comments:
-        addComments(comment, postId)
-        global first_level_comments
-        first_level_comments = first_level_comments + 1
+      try:
+        comments = post["comments"]["data"]
+        print("Comments exist!")
+        for comment in comments:
+          addComments(comment, postId, outputFile)
+          global first_level_comments
+          first_level_comments = first_level_comments + 1
 
-        try:
-          cs = comment["comments"]["data"]
-          print("Second Comments exist!")
-          for c in cs:
-            addComments(c, postId)
-            global second_level_comments
-            second_level_comments = second_level_comments + 1
-            # first_level_comments = first_level_comments + 1
-        except:
-          print("no second comments")
+          try:
+            cs = comment["comments"]["data"]
+            print("Second Comments exist!")
+            for c in cs:
+              addComments(c, postId, outputFile)
+              global second_level_comments
+              second_level_comments = second_level_comments + 1
+              # first_level_comments = first_level_comments + 1
+          except:
+            print("no second comments")
 
-    except:
-      print("no comments")
+      except:
+        print("no comments")
 
   # txt = ''.join(data)
   # print txt
@@ -120,7 +116,7 @@ def grabData(f):
       # end grabData function
 
 
-def addComments(comment, parent_post_id):
+def addComments(comment, parent_post_id, outputFile):
   data = dict()
   message = ''  # post["message"] may be none
   postId = ''   # post["id"]
@@ -174,9 +170,8 @@ def addComments(comment, parent_post_id):
   data["hasLink"] = hasLink
   data["hasTags"] = hasTags
 
-  # print(json.dumps(data))
-  # outputFile.write(json.dumps(data) + '\n')
-  all_data.append(data)
+  print(json.dumps(data))
+  outputFile.write(json.dumps(data) + '\n')
 
   # try:
   #   comments = comment["comments"]["data"]
@@ -192,15 +187,14 @@ def addComments(comment, parent_post_id):
 
 def main():
   # Main Funtion: Go through all files in the directory
-  outputFile = open('../data_samples/parsed_data_sample.json', 'w+')
+  outputFile = open('parsed-data-sample/data.json', 'w+')
 
-  # for file in os.listdir(path):
-  f = open(path, 'r')
-  # Iterate in one file
-  grabData(f)
-  outputFile.write(json.dumps(all_data))
-  f.close()
+  for file in os.listdir(path):
+    f = open(path + file, 'r')
+    # Iterate in one file
+    grabData(f,outputFile)
 
+    f.close()
  
   outputFile.close()
   print('All ' + str(allposts) + ' posts')
