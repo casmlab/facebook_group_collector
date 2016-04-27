@@ -1,4 +1,5 @@
 import glob, os, io, json, datetime
+from ConfigParser import SafeConfigParser
 
 def saveJSONfile(outfilename, data):
     outfile = io.open(outfilename, mode='wt', encoding='utf8')
@@ -47,8 +48,22 @@ def compareTimestamp(st1, st2):
     else:
         return False
 
-group_id = '111111111111111'
-group_name = 'asianamericanchicagonetwork'
-data_dir = '../data_samples/raw_data_sample.json'
-outfile = os.path.join(os.getcwd(), '../data_samples/cached_data_sample.json')
-combine(group_id, group_name, data_dir, outfile)
+if __name__ == "__main__":
+    # Set DEVELOPER_KEY to the API key value from the APIs & auth > Registered apps
+    # tab of
+    #   https://cloud.google.com/console
+    # Please ensure that you have enabled the YouTube Data API for your project.
+    config = SafeConfigParser()
+    script_dir = os.path.dirname(__file__)
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    config_file = os.path.join(script_dir, '../settings.cfg')
+    config.read(config_file)
+    
+    # DEVELOPER_KEY = config.get('youtube', 'api_key')
+
+    group_id = config.get('cache', 'group_id')
+    group_name = config.get('cache', 'group_name')
+    # max_results = int(config.get('collect', 'max_results'))
+    data_dir = '../data_samples/raw_data_sample.json'
+    outfile = os.path.join(os.getcwd(), '../data_samples/cached_data_sample.json')
+    combine(group_id, group_name, data_dir, outfile)
