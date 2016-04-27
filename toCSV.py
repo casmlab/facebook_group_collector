@@ -16,9 +16,9 @@ def main():
   # write header
   csvwriter.writerow(["postId", "parentPostId", "parentCommentId","authorName","message","hasVideo","hasPhoto","hasEvent","hasLink","hasTags"])
 
-
-  for line in f:
-    data = json.loads(line)
+  d = json.loads(f.read())
+  for data in d:
+    # data = json.loads(i)
     # print data["postId"]
     csvwriter.writerow([data["postId"],data["parentPostId"],data["parentCommentId"],data["authorName"],data["message"],data["hasVideo"],data["hasPhoto"],data["hasEvent"],data["hasLink"],data["hasTags"]])
 

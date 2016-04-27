@@ -9,8 +9,9 @@ path = 'cached-data-sample/data.json'
 allposts = 0
 first_level_comments = 0
 second_level_comments = 0
+all_data = []
 
-def grabData(f,outputFile):
+def grabData(f):
 
   data = dict()
   message = ''  # post["message"] may be none
@@ -88,13 +89,14 @@ def grabData(f,outputFile):
     data["hasTags"] = hasTags
     
     # print(json.dumps(data))
-    outputFile.write(json.dumps(data) + '\n')
+    # outputFile.write(json.dumps(data) + '\n')
+    all_data.append(data)
 
     try:
       comments = post["comments"]["data"]
       print("Comments exist!")
       for comment in comments:
-        addComments(comment, postId, outputFile)
+        addComments(comment, postId)
         global first_level_comments
         first_level_comments = first_level_comments + 1
 
@@ -102,7 +104,7 @@ def grabData(f,outputFile):
           cs = comment["comments"]["data"]
           print("Second Comments exist!")
           for c in cs:
-            addComments(c, postId, outputFile)
+            addComments(c, postId)
             global second_level_comments
             second_level_comments = second_level_comments + 1
             # first_level_comments = first_level_comments + 1
@@ -118,7 +120,7 @@ def grabData(f,outputFile):
       # end grabData function
 
 
-def addComments(comment, parent_post_id, outputFile):
+def addComments(comment, parent_post_id):
   data = dict()
   message = ''  # post["message"] may be none
   postId = ''   # post["id"]
@@ -173,7 +175,8 @@ def addComments(comment, parent_post_id, outputFile):
   data["hasTags"] = hasTags
 
   # print(json.dumps(data))
-  outputFile.write(json.dumps(data) + '\n')
+  # outputFile.write(json.dumps(data) + '\n')
+  all_data.append(data)
 
   # try:
   #   comments = comment["comments"]["data"]
@@ -194,9 +197,10 @@ def main():
   # for file in os.listdir(path):
   f = open(path, 'r')
   # Iterate in one file
-  grabData(f,outputFile)
-
+  grabData(f)
+  outputFile.write(json.dumps(all_data))
   f.close()
+
  
   outputFile.close()
   print('All ' + str(allposts) + ' posts')
