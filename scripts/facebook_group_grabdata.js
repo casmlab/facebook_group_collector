@@ -179,9 +179,9 @@
                   var url3 = URL.createObjectURL(blob);
 
                   var a = document.createElement('a');
-                  a.download = "backup.json";
+                  a.download = "raw_date_sample.json";
                   a.href = url3;
-                  a.textContent = "Download backup.json";
+                  a.textContent = "Download raw_date_sample.json";
                   document.getElementById('content').appendChild(a);
 
                   var pro = document.getElementById('process');
