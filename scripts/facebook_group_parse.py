@@ -11,10 +11,14 @@ first_level_comments = 0
 second_level_comments = 0
 all_data = []
 
-def grabData(f):
+
+def grabData(f,outputFile):
 
   data = dict()
+  # cleanData()
+
   message = ''  # post["message"] may be none
+  description = ''
   postId = ''   # post["id"]
   parentPostId = ''   # post["id"] or 
   parentCommentId = '' 
@@ -51,7 +55,7 @@ def grabData(f):
 
     # test tags
     try:
-      tags = post["message_tags"]
+      tags = post["message_tags"] # list
       hasTags = True
     except:
       print("no tags")
@@ -76,27 +80,47 @@ def grabData(f):
       #   print "no comments"
     except:
       pass
+    try:
+      description = post["description"]
+      
+    except:
+      pass
 
     data["postId"] = postId
     data["parentPostId"] = parentPostId
     data["parentCommentId"] = parentCommentId
     data["authorName"] = authorName
     data["message"] = message
+    data["description"] = description
     data["hasVideo"] = hasVideo
     data["hasPhoto"] = hasPhoto
     data["hasEvent"] = hasEvent
     data["hasLink"] = hasLink
     data["hasTags"] = hasTags
     
-    # print(json.dumps(data))
-    # outputFile.write(json.dumps(data) + '\n')
-    all_data.append(data)
+    print(json.dumps(data))
+    outputFile.write(json.dumps(data) + '\n')
+    # cleanData()
+    # all_data.append(data)
+    message = ''  # post["message"] may be none
+    description = ''
+    # postId = ''   # post["id"]
+    parentPostId = ''   # post["id"] or 
+    parentCommentId = '' 
+    authorName = '' # post["from"]["name"]
+    hasLink = False # post["type"] == "link" or post["attachment"]["url"]
+    hasEvent = False  # post["type"] == "event"
+    hasPhoto = False  # post["type"] == "photo" or post["attachment"]["media"]["image"]
+    hasVideo = False  # post["type"] == "video"
+    hasTags = False   # post["message_tags"] under comments
 
     try:
       comments = post["comments"]["data"]
       print("Comments exist!")
       for comment in comments:
-        addComments(comment, postId)
+        # print("test in circle")
+        addComments(comment, postId, outputFile)
+        print("test after comment")
         global first_level_comments
         first_level_comments = first_level_comments + 1
 
@@ -104,7 +128,7 @@ def grabData(f):
           cs = comment["comments"]["data"]
           print("Second Comments exist!")
           for c in cs:
-            addComments(c, postId)
+            addComments(c, postId, outputFile)
             global second_level_comments
             second_level_comments = second_level_comments + 1
             # first_level_comments = first_level_comments + 1
@@ -120,9 +144,10 @@ def grabData(f):
       # end grabData function
 
 
-def addComments(comment, parent_post_id):
+def addComments(comment, parent_post_id, outputFile):
   data = dict()
   message = ''  # post["message"] may be none
+  description = ''
   postId = ''   # post["id"]
   parentPostId = ''   # post["id"] or 
   parentCommentId = ''
@@ -132,13 +157,14 @@ def addComments(comment, parent_post_id):
   hasPhoto = False  # post["type"] == "photo" or post["attachment"]["media"]["image"]
   hasVideo = False  # post["type"] == "video"
   hasTags = False   # post["message_tags"] under comments
+  # cleanData()
 
   postId = comment["id"]
   parentPostId = parent_post_id
   # parentCommentId = parent_comment_id
   authorName = comment["from"]["name"]
   message = comment["message"]
-
+  print("test in comment")
   try:
     url = comment["attachment"]["url"]
     hasLink = True
@@ -168,15 +194,28 @@ def addComments(comment, parent_post_id):
   data["parentCommentId"] = parentCommentId
   data["authorName"] = authorName
   data["message"] = message
+  data["description"] = description
   data["hasVideo"] = hasVideo
   data["hasPhoto"] = hasPhoto
   data["hasEvent"] = hasEvent
   data["hasLink"] = hasLink
   data["hasTags"] = hasTags
 
-  # print(json.dumps(data))
-  # outputFile.write(json.dumps(data) + '\n')
-  all_data.append(data)
+  print(json.dumps(data))
+  outputFile.write(json.dumps(data) + '\n')
+  # all_data.append(data)
+  # cleanData()
+  message = ''  # post["message"] may be none
+  description = ''
+  postId = ''   # post["id"]
+  parentPostId = ''   # post["id"] or 
+  parentCommentId = '' 
+  authorName = '' # post["from"]["name"]
+  hasLink = False # post["type"] == "link" or post["attachment"]["url"]
+  hasEvent = False  # post["type"] == "event"
+  hasPhoto = False  # post["type"] == "photo" or post["attachment"]["media"]["image"]
+  hasVideo = False  # post["type"] == "video"
+  hasTags = False   # post["message_tags"] under comments
 
   # try:
   #   comments = comment["comments"]["data"]
@@ -197,12 +236,11 @@ def main():
   # for file in os.listdir(path):
   f = open(path, 'r')
   # Iterate in one file
-  grabData(f)
-  outputFile.write(json.dumps(all_data))
+  grabData(f,outputFile)
+  # outputFile.write(json.dumps(all_data))
   f.close()
-
- 
   outputFile.close()
+
   print('All ' + str(allposts) + ' posts')
   print('All ' + str(first_level_comments) + ' first_level_comments')
   print('All ' + str(second_level_comments) + ' second_level_comments')

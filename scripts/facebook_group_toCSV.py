@@ -14,13 +14,13 @@ def main():
   # create the csv writer object
   csvwriter = unicodecsv.writer(outputFile)
   # write header
-  csvwriter.writerow(["postId", "parentPostId", "parentCommentId","authorName","message","hasVideo","hasPhoto","hasEvent","hasLink","hasTags"])
+  csvwriter.writerow(["postId", "parentPostId", "parentCommentId","authorName","message","description","hasVideo","hasPhoto","hasEvent","hasLink","hasTags"])
 
-  d = json.loads(f.read())
-  for data in d:
-    # data = json.loads(i)
+  # d = json.loads(f.read())
+  for line in f:
+    data = json.loads(line)
     # print data["postId"]
-    csvwriter.writerow([data["postId"],data["parentPostId"],data["parentCommentId"],data["authorName"],data["message"],data["hasVideo"],data["hasPhoto"],data["hasEvent"],data["hasLink"],data["hasTags"]])
+    csvwriter.writerow([data["postId"],data["parentPostId"],data["parentCommentId"],data["authorName"],data["message"],data["description"],data["hasVideo"],data["hasPhoto"],data["hasEvent"],data["hasLink"],data["hasTags"]])
 
   f.close()   
   outputFile.close()

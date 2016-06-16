@@ -33,7 +33,7 @@
   	// var link = "https://www.facebook.com/groups/asianamericanchicagonetwork/";
     var link = document.getElementById("GET-link").value;
 
-  	var regroup = /https:\/\/www.facebook.com\/groups\/(.*?)\//;
+  	var regroup = /https:\/\/www.facebook.com\/groups\/(.*?)\/(.*?)/;
   	// var regroup = new RegExp("https:\/\/www.facebook.com\/groups\/(.*?)\/");
   	var repage = /https:\/\/www.facebook.com\/(.*?)\//;
   	var name;
