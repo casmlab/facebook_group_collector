@@ -2,7 +2,7 @@
   // setup javascript sdk
   window.fbAsyncInit = function() {
     FB.init({
-      appId      : '1065187026859191',
+      appId      : 'your_app_id',
       xfbml      : true,
       version    : 'v2.6'
     });
@@ -154,6 +154,9 @@
 
         	} else {
           		console.log("some error when get posts!");
+              var pro = document.getElementById('process');
+              pro.textContent = "some error when get posts!";
+              return;
         	}
         // set request interval to meet the limit of Facebook.
         	setTimeout(function() {
@@ -179,9 +182,9 @@
                   var url3 = URL.createObjectURL(blob);
 
                   var a = document.createElement('a');
-                  a.download = "raw_date_sample.json";
+                  a.download = "raw_data_sample.json";
                   a.href = url3;
-                  a.textContent = "Download raw_date_sample.json";
+                  a.textContent = "Download raw_data_sample.json";
                   document.getElementById('content').appendChild(a);
 
                   var pro = document.getElementById('process');

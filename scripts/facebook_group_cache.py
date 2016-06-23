@@ -64,7 +64,7 @@ if __name__ == "__main__":
     group_id = config.get('cache', 'group_id')
     group_name = config.get('cache', 'group_name')
     # max_results = int(config.get('collect', 'max_results'))
-    os.rename('../data_samples/raw_date_sample.json' , '../data_samples/raw_data_sample.json')
-    data_dir = '../data_samples/raw_data_sample.json'
-    outfile = os.path.join(os.getcwd(), '../data_samples/cached_data_sample.json')
+    # os.rename('../data_samples/raw_data_sample.json' , '../data_samples/raw_data_sample.json')
+    data_dir = './data_samples/raw_data_sample.json'
+    outfile = os.path.join(os.getcwd(), './data_samples/cached_data_sample.json')
     combine(group_id, group_name, data_dir, outfile)

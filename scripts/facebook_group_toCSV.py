@@ -5,10 +5,10 @@ import unicodecsv
 
 def main():
   # open a file for writing
-  outputFile = open('../data_samples/csv_data_sample.csv', 'wb+')
+  outputFile = open('./data_samples/csv_data_sample.csv', 'wb+')
 
   # open file to read
-  f = open('../data_samples/parsed_data_sample.json', 'r')
+  f = open('./data_samples/parsed_data_sample.json', 'r')
 
   count = 0
   # create the csv writer object

@@ -5,7 +5,7 @@
 import json
 import os
 
-path = '../data_samples/cached_data_sample.json'
+path = './data_samples/cached_data_sample.json'
 allposts = 0
 first_level_comments = 0
 second_level_comments = 0
@@ -231,7 +231,7 @@ def addComments(comment, parent_post_id, outputFile):
 
 def main():
   # Main Funtion: Go through all files in the directory
-  outputFile = open('../data_samples/parsed_data_sample.json', 'w+')
+  outputFile = open('./data_samples/parsed_data_sample.json', 'w+')
 
   # for file in os.listdir(path):
   f = open(path, 'r')

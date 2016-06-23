@@ -1,0 +1,18 @@
+name: facebook
+dependencies:
+- biopython=1.67=np111py35_0
+- mkl=11.3.3=0
+- numpy=1.11.0=py35_1
+- openssl=1.0.2h=1
+- pip=8.1.2=py35_0
+- python=3.5.1=0
+- readline=6.2=2
+- setuptools=23.0.0=py35_0
+- sqlite=3.13.0=0
+- tk=8.5.18=0
+- wheel=0.29.0=py35_0
+- xz=5.0.5=1
+- zlib=1.2.8=3
+- pip:
+  - unicodecsv==0.14.1
+
