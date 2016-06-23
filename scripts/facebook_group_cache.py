@@ -1,5 +1,5 @@
 import glob, os, io, json, datetime
-from ConfigParser import SafeConfigParser
+from configparser import ConfigParser
 
 def saveJSONfile(outfilename, data):
     outfile = io.open(outfilename, mode='wt', encoding='utf8')
@@ -53,7 +53,7 @@ if __name__ == "__main__":
     # tab of
     #   https://cloud.google.com/console
     # Please ensure that you have enabled the YouTube Data API for your project.
-    config = SafeConfigParser()
+    config = ConfigParser()
     script_dir = os.path.dirname(__file__)
     script_dir = os.path.dirname(os.path.abspath(__file__))
     config_file = os.path.join(script_dir, '../settings.cfg')
@@ -64,6 +64,7 @@ if __name__ == "__main__":
     group_id = config.get('cache', 'group_id')
     group_name = config.get('cache', 'group_name')
     # max_results = int(config.get('collect', 'max_results'))
+    os.rename('../data_samples/raw_date_sample.json' , '../data_samples/raw_data_sample.json')
     data_dir = '../data_samples/raw_data_sample.json'
     outfile = os.path.join(os.getcwd(), '../data_samples/cached_data_sample.json')
     combine(group_id, group_name, data_dir, outfile)
